@@ -1,185 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Food finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
     <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
+      html, body, #map_canvas, .col-md-8 {
+        margin: 0;
+        padding: 10;
+        height: 100%;
+      }
     </style>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs3hmYS0CB5NJyernpRkhSxEUrD-mOBfk&sensor=false">
-    </script>
-    <script type="text/javascript">
-    	
-    	var map;
-    	var geoPosition = new google.maps.LatLng(51.079529, -114.132445)
-      	mapOptions = {
-          center: geoPosition,
-          zoom: 14,
-          mapTypeId: 'hybrid',
-          mapTypeControl: true,
-          mapTypeControlOptions: { position: google.maps.ControlPosition.TOP_LEFT },
-          panControl: true,
-          panControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
-          zoomControl: true,
-          zoomControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT },
-          scaleControl: true,
-          scaleControlOptions: { position: google.maps.ControlPosition.LEFT_TOP },
-          streetViewControl: true,
-          streetViewControlOptions: { position: google.maps.ControlPosition.TOP_CENTER}
-        };
-        
-        var iconClickCounter = 0;
-        /*var myCircleOptions = {
-		      strokeColor: '#FF00EE',
-		      strokeOpacity: 0.8,
-		      strokeWeight: 2,
-		      fillColor: '#FF00EE',
-		      fillOpacity: 0.35,
-		      radius: 200,
-		      map:map,
-		      center: geoPosition
-		    };
-		    var myCircle = new google.maps.Circle(myCircleOptions);*/
-        
-      function initialize() {
-      	        
-        map = new google.maps.Map(document.getElementById("map-canvas"));
-        map.setOptions(mapOptions);
-        
-        var initMessage = '<p>We are here!</p>';
-        var infowindow = new google.maps.InfoWindow({
-        	content: initMessage
-       });
-        
-        var marker = new google.maps.Marker({
-        	position: geoPosition,
-        	map: map,
-        	title: 'Department of Geomatics Engineering'
-        });
-        
-        google.maps.event.addListener(marker, 'click', function() {
-        	infowindow.open(map,marker);
-        });
-        
-        var image = 'http://static.ucalgary.ca/2011-009/790/global/images/identity/vertical-crest.png';
-        var UClatlng = new google.maps.LatLng(51.0703, -114.133056);
-  			var ucMarker = new google.maps.Marker({
-      		position: UClatlng,
-      		map: map,
-      		icon: image
-  			});
-  			google.maps.event.addListener(ucMarker, 'click', function(){ucIconClick()});
-  			
-  			google.maps.event.addListener(map, 'click', function(e) {
-   	 			moveCircle(e.latLng, map);
-  			});
-      }
-      
-      google.maps.event.addDomListener(window, 'load', initialize);
-      
-      // ADD Triangle and Rectangle
-      function ucIconClick(){
-      	
-      	iconClickCounter++;
-      	if( iconClickCounter == 1)
-      	{
-      			var triangleCoords = [
-				    new google.maps.LatLng(51.07938670780673, -114.15202617645265),
-				    new google.maps.LatLng(51.07570244140795, -114.14979457855225),
-				    new google.maps.LatLng(51.07837655092769, -114.13863803863527),
-				    new google.maps.LatLng(51.07938670780673, -114.15202617645265)
-				  ];
-				
-				  // Construct the polygon.
-				  var myTriangle = new google.maps.Polygon({
-				    paths: triangleCoords,
-				    strokeColor: '#FFEE00',
-				    strokeOpacity: 0.9,
-				    strokeWeight: 2,
-				    fillColor: '#FFEE00',
-				    fillOpacity: 0.65
-				  });
-				
-				  myTriangle.setMap(map);
-				}
-				
-				if( iconClickCounter == 2 )
-				{
-					var rectangle = new google.maps.Rectangle({
-			    strokeColor: '#FF0000',
-			    strokeOpacity: 0.7,
-			    strokeWeight: 1,
-			    fillColor: '#FF0000',
-			    fillOpacity: 0.50,
-			    map: map,
-			    bounds: new google.maps.LatLngBounds(
-			      new google.maps.LatLng(51.07370244140795, -114.14979457855225),
-			      new google.maps.LatLng(51.08259989636909, -114.12576198577884))
-			  });
-				}
-      	
-      }
-      
-      var myCircleOptions = {
-		      strokeColor: '#FF00EE',
-		      strokeOpacity: 0.8,
-		      strokeWeight: 2,
-		      fillColor: '#FF00EE',
-		      fillOpacity: 0.35,
-		      radius: 200,
-		      map:null,
-		      center:geoPosition
-		    };
-		  var myCircle = new google.maps.Circle(myCircleOptions); 
-		    
-      // Add/Move circle
-      function moveCircle(position, map){
-      	myCircle.setMap(map);
-      	myCircle.setCenter(position);
-      	map.setCenter(position);
-      }
-      
-      
-      
-      function moveToNewLocation(frm){
-      	if (frm.latitude.value == "" || frm.longitude.value == "")
-      		alert("Hey! Your entry isn't complete!")
-      	else
-      		{
-      			var newPosition = new google.maps.LatLng(frm.latitude.value, frm.longitude.value)
-      	
-        		map.setCenter(newPosition);
-        		
-        		var newMessage = '<p>Your new location!</p>';
-        		var infowindow = new google.maps.InfoWindow({
-        			content: newMessage
-        		});
-        		
-        		var newmarker = new google.maps.Marker({
-        			position: newPosition,
-        			map: map,
-        			title: 'New location!'
-        		});
-        		infowindow.open(map, newmarker);
-      		}
-      }
-    </script>
+    
+		<link rel='stylesheet' type='text/css' href='https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css' />
+		<link rel='stylesheet' type='text/css' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'>
+    <link type="text/css"href="http://code.jquery.com/ui/1.8.17/themes/base/jquery-ui.css"rel="stylesheet" />
+		
   </head>
   <body>
-    <div id="map-canvas" style="height:80%; width:80%"> </div>
- 
- 
- <div id="form">
-		<form name="latandlong">
-			<p>
-    	Latitude: <input type="text" name="latitude"><br>
-    	Longitude: <input type="text" name="longitude"><br>
-    	<input type="button" value="Go!" onClick="moveToNewLocation(this.form)">
-    </p>
-  	</form>
-  </div>
+  	<div class="navbar navbar-static-top navbar-default">
+  		<h1>Food Finder <small>Find a restaurant in Calgary!</small></h1>
+  	</div>
+  		<div class="col-md-3 col-sm-4">
+  			<h2> Search by... </h2>
+  			<input type="text" class="form-control" value="Address (e.g. 2500 University Drive NW Calgary AB)">
+  			<br>
+  			<select class="form-control">
+  				<option>Rating...</option>
+  				<option>90% and above</option>
+  				<option>80%-89%</option>
+  				
+        </select>
+  				
+  		</div> <!-- col-md-3 -->
+  		<div class="col-md-8">
+  			<div id="map_canvas"></div>
+  		</div>
+  		
+   	<!-- <div id="map_canvas" style="width:80%;height:80%;"></div>-->
+    
+    <!-- Scripts -->
+    
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs3hmYS0CB5NJyernpRkhSxEUrD-mOBfk&sensor=false&libraries=geometry"></script>
+    <script type="text/javascript"src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript"src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 
   </body>
 </html>
