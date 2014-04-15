@@ -1,0 +1,23 @@
+body {
+}
+
+#goButton
+{
+	float:right;
+}
+
+#spacer
+{
+    height: 60px;
+}
+
+#restaurantResults
+{
+    height: 300px;
+    max-height: 300px;
+}
+
+h4
+{
+    font-size: 20px;
+}
